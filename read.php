@@ -7,27 +7,20 @@
   </head>
   <body>
     <h1>Liste des randonnées</h1>
-    <table>
-    <?php
-      try {
-          // On se connecte à MySQL
-          $bdd = new PDO('mysql:host=localhost;dbname=hiking;charset=utf8', 'root', '');
+    <a href="create.php">Ajouter une randonnée</a>
 
-          $bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-      } catch(PDOException $e) {
-          // En cas d'erreur, on affiche un message et on arrête tout
-          die('Erreur : '.$e->getMessage());
-      }
+    <?php
+      require_once "./connect.php";
+      require_once "./delete.php";
 
       $requete = $bdd->query('SELECT * FROM hiking');
 
       echo "<table border='1'>";
-      echo "<tr><th>Id</th><th>Name</th><th>Difficulty</th><th>Distance</th><th>Duration</th><th>Height Difference</th></tr>";
+      echo "<tr><th>Nom</th><th>Difficulté</th><th>Distance</th><th>Durée</th><th>Dénivelé</th></tr>";
       while ($donnees = $requete->fetch()) {
-          echo "<tr><td>".$donnees['id']."</td><td>".$donnees['name']."</td><td>".$donnees['difficulty']."</td><td>".$donnees['distance']." Km</td><td>".$donnees['duration']."</td><td>".$donnees['height_difference']." m</td></tr>";
+          echo "<tr><td>".$donnees['name']."</td><td>".$donnees['difficulty']."</td><td>".$donnees['distance']." Km</td><td>".$donnees['duration']."</td><td>".$donnees['height_difference']." m</td>><td><a href='./update.php?id=".$donnees['id']."'>Modifier</a></td><td><form method='post'><input type='hidden' name='supprimer' value='". htmlspecialchars($donnees['name'])."'><input type='submit' value='Supprimer'></form></td></tr>";
       }
       echo "</table>";
     ?>
-    </table>
   </body>
 </html>
