@@ -37,21 +37,26 @@
 			<label for="height_difference">Dénivelé</label>
 			<input type="text" name="height_difference" value="">
 		</div>
+		<div>
+			<label for="available">Possible perturbation</label>
+			<input type="text" name="available" value="">
+		</div>
 		<button type="submit" name="button">Envoyer</button>
 	</form>
 	<?php
-		require_once "./connect.php";
+		include "./connect.php";
 
 		if(!empty($_POST)){
-            if(isset($_POST["name"], $_POST["difficulty"], $_POST["distance"], $_POST["duration"], $_POST["height_difference"]) && !empty($_POST["name"]) && !empty($_POST["difficulty"]) && !empty($_POST["distance"]) && !empty($_POST["duration"]) && !empty($_POST["height_difference"])){
+            if(isset($_POST["name"], $_POST["difficulty"], $_POST["distance"], $_POST["duration"], $_POST["height_difference"], $_POST["available"]) && !empty($_POST["name"]) && !empty($_POST["difficulty"]) && !empty($_POST["distance"]) && !empty($_POST["duration"]) && !empty($_POST["height_difference"]) && !empty($_POST["available"])){
 
 				$name = $_POST["name"];
                 $difficulty = $_POST["difficulty"];
                 $distance = $_POST["distance"];
                 $duration = $_POST["duration"];
 				$height_difference = $_POST["height_difference"];
+				$available = $_POST["available"];
 
-                $sql = "INSERT INTO `hiking`(`id`, `name`, `difficulty`,`distance`, `duration`, `height_difference`) VALUES (NULL, :name, :difficulty, :distance, :duration, :height_difference)";
+                $sql = "INSERT INTO `hiking`(`id`, `name`, `difficulty`,`distance`, `duration`, `height_difference`, `available`) VALUES (NULL, :name, :difficulty, :distance, :duration, :height_difference, :available)";
             
                 $query = $bdd->prepare($sql); // prépare le requête
                 // injecter les valeurs
@@ -60,6 +65,7 @@
                 $query->bindValue(":distance", $distance, PDO::PARAM_INT);
 				$query->bindValue(":duration", $duration, PDO::PARAM_INT);
 				$query->bindValue(":height_difference", $height_difference, PDO::PARAM_INT);
+				$query->bindValue(":availble", $available, PDO::PARAM_STR);
 
                 $query->execute(); // execute la requête
 

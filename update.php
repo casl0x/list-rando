@@ -37,11 +37,15 @@
 			<label for="height_difference">Dénivelé</label>
 			<input type="text" name="height_difference" value="">
 		</div>
+		<div>
+			<label for="available">Possible perturbation</label>
+			<input type="text" name="available" value="">
+		</div>
 		<button type="submit" name="button">Envoyer</button>
 	</form>
 
 	<?php
-		require_once "./connect.php";
+		include "./connect.php";
 
 		if (!empty($_POST)) {
 			if (isset($_GET['id']) && !empty($_GET['id'])) {
@@ -52,14 +56,16 @@
 				$distance = $_POST["distance"];
 				$duration = $_POST["duration"];
 				$height_difference = $_POST["height_difference"];
+				$available = $_POST["available"];
 		
-				$sql = "UPDATE hiking SET name = :name, difficulty = :difficulty, distance = :distance, duration = :duration, height_difference = :height_difference WHERE id = :id";
+				$sql = "UPDATE hiking SET name = :name, difficulty = :difficulty, distance = :distance, duration = :duration, height_difference = :height_difference, available = :available WHERE id = :id";
 				$query = $bdd->prepare($sql);
 				$query->bindValue(":name", $name, PDO::PARAM_STR);
 				$query->bindValue(":difficulty", $difficulty, PDO::PARAM_STR);
 				$query->bindValue(":distance", $distance, PDO::PARAM_INT);
 				$query->bindValue(":duration", $duration, PDO::PARAM_INT);
 				$query->bindValue(":height_difference", $height_difference, PDO::PARAM_INT);
+				$query->bindValue(":availble", $available, PDO::PARAM_STR);
 				$query->bindValue(":id", $id, PDO::PARAM_INT);
 		
 				$query->execute();

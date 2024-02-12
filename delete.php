@@ -1,6 +1,6 @@
 <?php
 /**** Supprimer une randonnée ****/
-require_once './connect.php';
+include './connect.php';
 
 if (isset($_POST['supprimer'])){
     $suppRando = $_POST['supprimer'];
